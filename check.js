@@ -17,13 +17,14 @@ function line(ok,title,detail){const d=document.createElement("div");d.style.css
  try{const p=await DB.get("personal",[]);p.forEach(x=>x.key&&keys.push(x.key))}catch{}
  if(keys.length){
   const u=await MediaStore.get(keys[0]);
+  if(!/^https?:/.test(u||"")){line(false,"Saved images are NOT in Supabase",u?"They are stored only in the browser that uploaded them.":"This image exists only in the browser where it was uploaded (or is missing). Delete the game and add it again from the dashboard.");}else
   try{const r=await fetch(u,{method:"HEAD"});line(r.ok,r.ok?"Saved images are publicly visible":"Saved image NOT reachable (HTTP "+r.status+")",r.ok?u:"In Supabase > Storage, open the \"media\" bucket and make it PUBLIC (or re-run supabase-setup.sql). Tested: "+u)}catch(e){line(false,"Could not reach the image URL",u)}
  }else line(null,"No images saved yet","Upload one from the dashboard, then reload this page.");
  const s=await DB.session();
  if(!s){line(null,"Not logged in","Log in at login.html, then reload this page to also test uploads.");return}
  try{
   const k="check-"+Date.now(),png="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-  await MediaStore.put(k,png);const u=await MediaStore.get(k);const r=await fetch(u,{method:"HEAD"});
+  await MediaStore.put(k,png);const u=await MediaStore.get(k);if(!/^https?:/.test(u||""))throw new Error("Upload went to local browser storage, not Supabase");const r=await fetch(u,{method:"HEAD"});
   line(r.ok,r.ok?"Upload test passed (uploaded and publicly readable)":"Uploaded, but the file is NOT public (HTTP "+r.status+")",r.ok?"":"Make the \"media\" bucket PUBLIC in Supabase > Storage.");
   await MediaStore.del(k);
  }catch(e){line(false,"Upload test failed",e.message+" — run supabase-setup.sql (storage policies) and make sure you are logged in.")}
