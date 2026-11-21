@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Owner Login</title><link rel="stylesheet" href="style.css"></head>
+<body class="login-page">
+<header class="top"><a class="brand" href="index.html">M<span>.</span> DIAB</a><a class="owner-link" href="index.html">← BACK TO WEBSITE</a></header>
+<main class="login-wrap"><div class="eyebrow">PRIVATE AREA <span>✦</span></div><h1 class="login-title">OWNER <span class="gold">LOGIN.</span></h1>
+<p class="sub" id="loginHelp">Sign in to manage the information shown on your website.</p>
+<form id="loginForm" class="panel">
+<label for="username">EMAIL</label><input id="username" type="email" autocomplete="username" required placeholder="Your owner email">
+<label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Your password">
+<p id="error" class="error" aria-live="polite"></p><button class="main-btn" type="submit">LOGIN <span>↗</span></button>
+</form><p class="hint" id="loginHint">Secure login powered by Supabase. Only your owner account can edit the website.</p>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script><script src="supabase-config.js"></script><script src="db.js"></script><script src="auth.js"></script></body></html>

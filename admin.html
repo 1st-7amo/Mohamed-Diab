@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Owner Dashboard</title><link rel="stylesheet" href="style.css"></head>
+<body><header class="top"><a class="brand" href="index.html">M<span>.</span> DIAB</a><nav class="main-nav"><a href="index.html">HOME</a><a href="games.html">GAMES</a><a href="photos.html">PHOTOS</a></nav><button id="logout" class="owner-link logout">LOG OUT ↗</button></header>
+<main class="dashboard"><div class="eyebrow">OWNER DASHBOARD <span>✦</span></div><h1 class="dash-title">EDIT <span class="gold">INFO.</span></h1><p class="sub">Changes are saved to your Supabase database and appear for all visitors.</p>
+<div class="dash-cols"><div class="dash-col">
+<form id="profileForm" class="panel">
+<h2>PROFILE INFORMATION</h2><label for="displayName">YOUR NAME</label><input id="displayName" required>
+<label for="profilePhotoFile">PROFILE PHOTO</label>
+<div class="photo-editor"><img id="photoPreview" alt="Profile photo preview" hidden><span id="photoFallback">M</span></div>
+<input id="profilePhotoFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/*">
+<button type="button" id="removePhoto" class="secondary">REMOVE PROFILE PHOTO</button>
+<label for="displayAge">YOUR AGE</label><input id="displayAge" type="number" min="1" max="120" placeholder="Enter your age"><label for="displayCountry">COUNTRY</label><input id="displayCountry" placeholder="e.g. Egypt EG">
+<label for="discordUrl">DISCORD SERVER LINK (JOIN BUTTON ON HOME PAGE)</label><input id="discordUrl" type="url" placeholder="https://discord.gg/yourinvite — leave empty to hide the button">
+<h2 class="subhead">SOCIAL ACCOUNTS</h2><div id="accountFields"></div>
+<button type="button" id="addAccount" class="secondary">+ ADD ACCOUNT</button>
+<button type="submit" class="main-btn save">SAVE CHANGES <span>✓</span></button><p id="saved" class="success" aria-live="polite"></p>
+</form>
+<section class="panel game-manager" id="personalGalleryManager">
+<h2>MY PERSONAL PHOTO GALLERY</h2>
+<p class="sub">Upload your own photos here. They will appear on the separate PHOTOS page.</p>
+<form id="personalPhotoForm">
+<label for="personalPhotoTitle">PHOTO CAPTION (OPTIONAL)</label><input id="personalPhotoTitle" placeholder="e.g. A day to remember">
+<label for="personalPhotos">CHOOSE YOUR PHOTOS</label><input id="personalPhotos" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/*" multiple required>
+<button type="submit" class="main-btn save">ADD MY PHOTOS <span>＋</span></button><p id="personalPhotoStatus" class="success" aria-live="polite"></p>
+</form><div id="personalPhotoList" class="managed-games"></div>
+</section>
+</div><div class="dash-col">
+<section class="panel game-manager" id="gameManager">
+<h2>GAMES GALLERY MANAGER</h2>
+<p class="sub">Add a game. Visitors can open its own page with your photos, videos and game information.</p>
+<form id="gameForm">
+<label for="gameTitle">GAME NAME</label><input id="gameTitle" required placeholder="e.g. PUBG Mobile" autocomplete="off">
+<div class="icon-preview-row"><div id="iconPreview" class="icon-preview">?</div><span id="iconPreviewText">Type the game name and its icon appears here automatically.</span></div>
+<label for="gameDescription">ABOUT THE GAME</label><textarea id="gameDescription" rows="4" placeholder="Write a short description..."></textarea>
+<label for="gameCategory">GENRE / PLATFORM</label><input id="gameCategory" placeholder="e.g. Battle Royale • Mobile">
+<label for="gameIconFile">GAME ICON (OPTIONAL - ONLY IF NOT FOUND AUTOMATICALLY)</label><input id="gameIconFile" type="file" accept="image/*">
+<p class="sub">The icon is found automatically from the game name. Upload your own only if the preview above shows "?".</p>
+<label for="gameCover">COVER IMAGE</label><input id="gameCover" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/*">
+<label for="gamePhotos">GALLERY PHOTOS</label><input id="gamePhotos" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/*" multiple>
+<label for="gameVideo">VIDEO URL (OPTIONAL)</label><input id="gameVideo" type="url" placeholder="YouTube or direct video link">
+<label for="gameVideoFile">UPLOAD LOCAL VIDEO FROM YOUR PC</label><input id="gameVideoFile" type="file" accept="video/mp4,video/webm,video/ogg,.mp4,.webm,.ogv" multiple>
+<p class="sub">MP4 / WEBM / OGG • Up to 3 videos • 50 MB each. Videos are stored in your Supabase storage.</p>
+<button type="submit" class="main-btn save">ADD GAME <span>＋</span></button><p id="gameStatus" class="success" aria-live="polite"></p>
+</form>
+<div id="managedGames" class="managed-games"></div>
+</section>
+<section class="panel game-manager" id="statsManager">
+<h2>PLAYER ID &amp; STATS</h2>
+<p class="sub">Every visitor sees this card on the game's page, with a COPY button for your Player ID. Fill it and press SAVE.</p>
+<form id="statsForm">
+<label for="statsGame">GAME</label><select id="statsGame"></select>
+<label for="statsId">PLAYER ID</label><input id="statsId" placeholder="e.g. 5123456789" autocomplete="off">
+<label for="statsNick">IN-GAME NAME</label><input id="statsNick" placeholder="Your name inside the game" autocomplete="off">
+<label for="statsRank">RANK</label><input id="statsRank" placeholder="e.g. Conqueror" autocomplete="off">
+<label for="statsKd">K/D</label><input id="statsKd" placeholder="e.g. 4.2" autocomplete="off">
+<label for="statsWins">WINS</label><input id="statsWins" placeholder="e.g. 850" autocomplete="off">
+<label for="statsHours">HOURS PLAYED</label><input id="statsHours" placeholder="e.g. 1200" autocomplete="off">
+<button type="submit" class="main-btn save">SAVE STATS <span>✓</span></button>
+<p id="statsStatus" class="success" aria-live="polite"></p>
+</form></section>
+</div></div>
+<p class="hint"><a href="index.html">View your website →</a></p>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script><script src="supabase-config.js"></script><script src="db.js"></script><script src="media-store.js"></script><script src="game-icon.js"></script><script src="admin.js"></script></body></html>
