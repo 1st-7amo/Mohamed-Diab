@@ -2,7 +2,7 @@ const box=document.getElementById("checks");
 function line(ok,title,detail){const d=document.createElement("div");d.style.cssText="padding:11px 0;border-bottom:1px solid #d6ad5520;font-size:13px;line-height:1.6";
  const s=document.createElement("strong");s.textContent=(ok===true?"✅ ":ok===false?"❌ ":"ℹ️ ")+title;s.style.color=ok===true?"#9be3ad":ok===false?"#ff9c8a":"#e2b953";d.append(s);
  if(detail){const p=document.createElement("div");p.style.cssText="color:#a8a08c;font-size:12px;margin-top:3px;word-break:break-word";p.textContent=detail;d.append(p)}box.append(d)}
-(async()=>{
+(async()=>{try{
  const url=window.SUPABASE_URL,key=window.SUPABASE_ANON_KEY;
  if(!window.supabase){line(false,"Supabase library did not load","Check your internet / ad-blocker (cdn.jsdelivr.net).");return}
  if(!url||!key){line(false,"supabase-config.js is empty on this site","The file on GitHub must contain your real URL and anon key. Open "+location.origin+location.pathname.replace(/[^/]*$/,"")+"supabase-config.js and check.");return}
@@ -27,4 +27,4 @@ function line(ok,title,detail){const d=document.createElement("div");d.style.css
   line(r.ok,r.ok?"Upload test passed (uploaded and publicly readable)":"Uploaded, but the file is NOT public (HTTP "+r.status+")",r.ok?"":"Make the \"media\" bucket PUBLIC in Supabase > Storage.");
   await MediaStore.del(k);
  }catch(e){line(false,"Upload test failed",e.message+" — run supabase-setup.sql (storage policies) and make sure you are logged in.")}
-})();
+}catch(e){line(false,"The check itself crashed",e.message||String(e))}})();
