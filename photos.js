@@ -5,7 +5,7 @@ document.getElementById("year").textContent=new Date().getFullYear();
  for(const item of items){
   const src=item.src||await MediaStore.get(item.key);if(!src)continue;
   const card=document.createElement("figure");card.className="personal-photo-card";
-  const img=document.createElement("img");img.src=src;img.alt=item.caption||"Mohamed Diab personal photo";img.loading="lazy";
+  const img=document.createElement("img");img.onerror=()=>card.remove();img.src=src;img.alt=item.caption||"Mohamed Diab personal photo";img.loading="lazy";
   const open=()=>showPhoto(src,img.alt);
   card.tabIndex=0;card.setAttribute("role","button");card.setAttribute("aria-label","Open photo");
   card.addEventListener("click",open);card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open()}});

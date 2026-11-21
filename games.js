@@ -12,7 +12,7 @@ function initialsForGame(title){
  for(const game of games){
   const a=document.createElement("a");a.className="game-card game-card-link";a.href=`game.html?id=${encodeURIComponent(game.id)}`;
   const cover=game.coverSrc||game.cover||(game.coverKey?await MediaStore.get(game.coverKey):"");
-  if(cover){const img=document.createElement("img");img.className="game-cover";img.src=cover;img.alt=game.title+" cover";a.append(img)}
+  if(cover){const img=document.createElement("img");img.className="game-cover";img.onerror=()=>img.remove();img.src=cover;img.alt=game.title+" cover";a.append(img)}
   const shade=document.createElement("div");shade.className="game-card-shade";a.append(shade);
   const symbol=document.createElement("div");symbol.className="game-symbol";
   const showFallback=()=>{symbol.replaceChildren();symbol.textContent=initialsForGame(game.title);symbol.classList.add("game-symbol-fallback")};

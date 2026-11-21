@@ -18,7 +18,7 @@ document.getElementById("ageValue").textContent=data.age?data.age:"Add your age"
 document.getElementById("countryValue").textContent=data.country||"Egypt EG";
 document.getElementById("initials").textContent=(name.trim().split(/\s+/).map(x=>x[0]).join("").slice(0,1)||"M").toUpperCase();
 const profilePhoto=document.getElementById("profilePhoto");
-(async()=>{const photo=data.photoSrc||data.photo||(data.photoKey?await MediaStore.get(data.photoKey):"");if(photo){profilePhoto.src=photo;profilePhoto.hidden=false;document.getElementById("initials").hidden=true;}})();
+(async()=>{const photo=data.photoSrc||data.photo||(data.photoKey?await MediaStore.get(data.photoKey):"");if(photo){profilePhoto.onerror=()=>{profilePhoto.hidden=true;document.getElementById("initials").hidden=false};profilePhoto.src=photo;profilePhoto.hidden=false;document.getElementById("initials").hidden=true;}})();
 document.getElementById("year").textContent=new Date().getFullYear();
 const accounts=data.accounts||defaults.accounts;
 const primary=accounts.find(a=>a.url);
